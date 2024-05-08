@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/mans/Documents/episk programmering/manscraft/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/manscraft.dir/src/main.cpp.o -c \"/home/mans/Documents/episk programmering/manscraft/src/main.cpp\"",
+  "file": "/home/mans/Documents/episk programmering/manscraft/src/main.cpp"
+}
+]
