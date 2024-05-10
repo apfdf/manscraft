@@ -1,5 +1,4 @@
 
-
 #version 330 core
 
 #define MAX_BUFFER_SIZE 512
