@@ -43,5 +43,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/manscraft.dir/DependInfo.cmake"
+  "CMakeFiles/more-rendering.dir/DependInfo.cmake"
   )

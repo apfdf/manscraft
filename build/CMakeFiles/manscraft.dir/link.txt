@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/manscraft.dir/src/main.cpp.o -o manscraft  -lglfw -lGLEW -lGL 

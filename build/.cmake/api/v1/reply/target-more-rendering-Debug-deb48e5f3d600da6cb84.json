@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "manscraft"
+			"path" : "more-rendering"
 		}
 	],
 	"backtrace" : 1,
@@ -52,7 +52,7 @@
 			]
 		}
 	],
-	"id" : "manscraft::@6890427a1f51a3e7e1df",
+	"id" : "more-rendering::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -83,8 +83,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "manscraft",
-	"nameOnDisk" : "manscraft",
+	"name" : "more-rendering",
+	"nameOnDisk" : "more-rendering",
 	"paths" : 
 	{
 		"build" : ".",

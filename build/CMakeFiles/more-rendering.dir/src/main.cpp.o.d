@@ -1,5 +1,5 @@
-CMakeFiles/manscraft.dir/src/main.cpp.o: \
- /home/mans/Documents/episk\ programmering/manscraft/src/main.cpp \
+CMakeFiles/more-rendering.dir/src/main.cpp.o: \
+ /home/mans/Documents/episk\ programmering/more-rendering/src/main.cpp \
  /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h \
  /usr/include/c++/11/cassert \

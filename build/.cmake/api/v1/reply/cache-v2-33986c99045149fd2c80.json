@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/mans/Documents/episk programmering/manscraft/build"
+			"value" : "/home/mans/Documents/episk programmering/more-rendering/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -591,7 +591,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/mans/Documents/episk programmering/manscraft"
+			"value" : "/home/mans/Documents/episk programmering/more-rendering"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -835,7 +835,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "manscraft"
+			"value" : "more-rendering"
 		},
 		{
 			"name" : "CMAKE_PROJECT_VERSION",
@@ -1178,7 +1178,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "manscraft_BINARY_DIR",
+			"name" : "more-rendering_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1187,10 +1187,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/mans/Documents/episk programmering/manscraft/build"
+			"value" : "/home/mans/Documents/episk programmering/more-rendering/build"
 		},
 		{
-			"name" : "manscraft_IS_TOP_LEVEL",
+			"name" : "more-rendering_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1202,7 +1202,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "manscraft_SOURCE_DIR",
+			"name" : "more-rendering_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1211,7 +1211,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/mans/Documents/episk programmering/manscraft"
+			"value" : "/home/mans/Documents/episk programmering/more-rendering"
 		}
 	],
 	"kind" : "cache",

@@ -54,16 +54,16 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/mans/Documents/episk programmering/manscraft"
+CMAKE_SOURCE_DIR = "/home/mans/Documents/episk programmering/more-rendering"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/mans/Documents/episk programmering/manscraft/build"
+CMAKE_BINARY_DIR = "/home/mans/Documents/episk programmering/more-rendering/build"
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/manscraft.dir/all
+all: CMakeFiles/more-rendering.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/manscraft.dir/clean
+clean: CMakeFiles/more-rendering.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/manscraft.dir
+# Target rules for target CMakeFiles/more-rendering.dir
 
 # All Build rule for target.
-CMakeFiles/manscraft.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/manscraft.dir/build.make CMakeFiles/manscraft.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/manscraft.dir/build.make CMakeFiles/manscraft.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/mans/Documents/episk programmering/manscraft/build/CMakeFiles" --progress-num=1,2 "Built target manscraft"
-.PHONY : CMakeFiles/manscraft.dir/all
+CMakeFiles/more-rendering.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/more-rendering.dir/build.make CMakeFiles/more-rendering.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/more-rendering.dir/build.make CMakeFiles/more-rendering.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/mans/Documents/episk programmering/more-rendering/build/CMakeFiles" --progress-num=1,2 "Built target more-rendering"
+.PHONY : CMakeFiles/more-rendering.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/manscraft.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mans/Documents/episk programmering/manscraft/build/CMakeFiles" 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/manscraft.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mans/Documents/episk programmering/manscraft/build/CMakeFiles" 0
-.PHONY : CMakeFiles/manscraft.dir/rule
+CMakeFiles/more-rendering.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mans/Documents/episk programmering/more-rendering/build/CMakeFiles" 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/more-rendering.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mans/Documents/episk programmering/more-rendering/build/CMakeFiles" 0
+.PHONY : CMakeFiles/more-rendering.dir/rule
 
 # Convenience name for target.
-manscraft: CMakeFiles/manscraft.dir/rule
-.PHONY : manscraft
+more-rendering: CMakeFiles/more-rendering.dir/rule
+.PHONY : more-rendering
 
 # clean rule for target.
-CMakeFiles/manscraft.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/manscraft.dir/build.make CMakeFiles/manscraft.dir/clean
-.PHONY : CMakeFiles/manscraft.dir/clean
+CMakeFiles/more-rendering.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/more-rendering.dir/build.make CMakeFiles/more-rendering.dir/clean
+.PHONY : CMakeFiles/more-rendering.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mans/Documents/episk programmering/manscraft/src/main.cpp" "CMakeFiles/manscraft.dir/src/main.cpp.o" "gcc" "CMakeFiles/manscraft.dir/src/main.cpp.o.d"
+  "/home/mans/Documents/episk programmering/more-rendering/src/main.cpp" "CMakeFiles/more-rendering.dir/src/main.cpp.o" "gcc" "CMakeFiles/more-rendering.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links.

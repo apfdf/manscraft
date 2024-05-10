@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/more-rendering.dir/src/main.cpp.o -o more-rendering  -lglfw -lGLEW -lGL 

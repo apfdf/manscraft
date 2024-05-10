@@ -1,4 +1,4 @@
-# Install script for directory: /home/mans/Documents/episk programmering/manscraft
+# Install script for directory: /home/mans/Documents/episk programmering/more-rendering
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mans/Documents/episk programmering/manscraft/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mans/Documents/episk programmering/more-rendering/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
