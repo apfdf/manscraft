@@ -7,10 +7,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 128
 #define PI 3.14159265359
 
 using namespace std;
+
+void error(string mes) {
+    cerr << mes << endl;
+    exit(1);
+}
 
 GLint compileShader(const char* filename, GLenum type) {
 
@@ -148,17 +153,21 @@ int main() {
     };
 
     GLfloat vertices[] = {
-        0.0f, 1.0f, 1.0f, 0.0f,
-        -1.0f, 1.3f, 0.3f, 0.0f,
-        0.4f, -0.5f, 0.5f, 0.0f
+        1.0f, 1.0f, -1.0f, 0.0f,
+        0.0f, 1.0f, -1.0f, 0.0f,
+        0.0f, 0.0f, -1.0f, 0.0f,
+        1.0f, 1.0f, -1.0f, 1.0f,
+        1.0f, 0.01, -1.0f, 1.0f,
+        0.0f, 0.0f, -1.0f, 1.0f
 	};
 
-    glm::vec3 vertices1[BUFFER_SIZE];
-    vertices1[0] = {0.0f, 1.0f, 1.0f};
-    vertices1[1] = {-1.0f, 1.3f, 0.3f};
-    vertices1[2] = {0.4f, -0.5f, 0.5f};
-
     int vertices_amount = (sizeof(vertices) / sizeof(float)) / 4;
+    cout << vertices_amount << endl;
+
+    glm::vec3 vertices1[BUFFER_SIZE];
+    for (int i = 0; i < vertices_amount; i++) {
+        vertices1[i] = {vertices[i*4], vertices[i*4+1], vertices[i*4+2]};
+    }
 
     glm::vec3 lights[BUFFER_SIZE];
     lights[0] =  {0.0f, 0.0f, 0.0f};
@@ -244,35 +253,17 @@ int main() {
         glUniform3fv(default_program.uloc["lights"], BUFFER_SIZE, glm::value_ptr(lights[0]));
         glUniform1i(default_program.uloc["lights_amount"], lights_amount);
 
-        glClearColor(0.1f, 0.1f, 0.1f, 0.1f);
+        glClearColor(0.13f, 0.1f, 0.1f, 0.1f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // do default shader stuff
 
         glUseProgram(default_program.id);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 4);
+        glDrawArrays(GL_TRIANGLES, 0, vertices_amount);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 	    glBindVertexArray(0);
-
-        // do lighting shader stuff
-
-        /*
-        glUseProgram(light_program.id);
-
-        glBegin(GL_TRIANGLES);
-
-        glVertex3f(-1.0f, -1.0f, 0.0f);
-        glVertex3f(1.0f, -1.0f, 0.0f);
-        glVertex3f(1.0f, 1.0f, 0.0f);
-        
-        glVertex3f(-1.0f, -1.0f, 0.0f);
-        glVertex3f(-1.0f, 1.0f, 0.0f);
-        glVertex3f(1.0f, 1.0f, 0.0f);
-        
-        glEnd();
-        */
 
         glUseProgram(default_program.id);
 
