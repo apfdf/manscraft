@@ -606,8 +606,70 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/glm/ext/vector_int1_sized.hpp \
   /usr/include/glm/ext/vector_uint1.hpp \
   /usr/include/glm/ext/vector_uint1_sized.hpp \
-  /usr/include/glm/gtc/type_ptr.inl
+  /usr/include/glm/gtc/type_ptr.inl \
+  /usr/include/SDL/SDL.h \
+  /usr/include/SDL/SDL_main.h \
+  /usr/include/SDL/SDL_stdinc.h \
+  /usr/include/SDL/SDL_config.h \
+  /usr/include/SDL/SDL_platform.h \
+  /usr/include/c++/11/stdlib.h \
+  /usr/include/iconv.h \
+  /usr/include/SDL/begin_code.h \
+  /usr/include/SDL/close_code.h \
+  /usr/include/SDL/SDL_audio.h \
+  /usr/include/SDL/SDL_error.h \
+  /usr/include/SDL/SDL_endian.h \
+  /usr/include/SDL/SDL_mutex.h \
+  /usr/include/SDL/SDL_thread.h \
+  /usr/include/SDL/SDL_rwops.h \
+  /usr/include/SDL/SDL_cdrom.h \
+  /usr/include/SDL/SDL_cpuinfo.h \
+  /usr/include/SDL/SDL_events.h \
+  /usr/include/SDL/SDL_active.h \
+  /usr/include/SDL/SDL_keyboard.h \
+  /usr/include/SDL/SDL_keysym.h \
+  /usr/include/SDL/SDL_mouse.h \
+  /usr/include/SDL/SDL_video.h \
+  /usr/include/SDL/SDL_joystick.h \
+  /usr/include/SDL/SDL_quit.h \
+  /usr/include/SDL/SDL_loadso.h \
+  /usr/include/SDL/SDL_timer.h \
+  /usr/include/SDL/SDL_version.h \
+  /usr/include/SDL/SDL_image.h \
+  /usr/include/SDL/SDL.h
 
+
+/usr/include/SDL/SDL_image.h:
+
+/usr/include/SDL/SDL_timer.h:
+
+/usr/include/SDL/SDL_joystick.h:
+
+/usr/include/SDL/SDL_video.h:
+
+/usr/include/SDL/SDL_keysym.h:
+
+/usr/include/SDL/SDL_keyboard.h:
+
+/usr/include/SDL/SDL_cpuinfo.h:
+
+/usr/include/SDL/SDL_cdrom.h:
+
+/usr/include/SDL/SDL_rwops.h:
+
+/usr/include/SDL/SDL_endian.h:
+
+/usr/include/SDL/SDL_error.h:
+
+/usr/include/SDL/begin_code.h:
+
+/usr/include/iconv.h:
+
+/usr/include/c++/11/stdlib.h:
+
+/usr/include/SDL/SDL_stdinc.h:
+
+/usr/include/SDL/SDL.h:
 
 /usr/include/glm/ext/vector_uint1.hpp:
 
@@ -746,6 +808,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/c++/11/bits/regex_automaton.tcc:
 
 /usr/include/c++/11/cstdbool:
+
+/usr/include/SDL/SDL_audio.h:
 
 /usr/include/c++/11/bits/exception.h:
 
@@ -995,6 +1059,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
+/usr/include/SDL/SDL_active.h:
+
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
 
 /usr/include/glm/detail/type_quat.hpp:
@@ -1117,6 +1183,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 ../src/main.cpp:
 
+/usr/include/SDL/SDL_events.h:
+
 /usr/include/glm/ext/vector_bool3.hpp:
 
 /usr/include/wchar.h:
@@ -1141,6 +1209,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
+/usr/include/SDL/close_code.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/c++/11/typeindex:
@@ -1154,6 +1224,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/include/c++/11/bits/predefined_ops.h:
+
+/usr/include/SDL/SDL_thread.h:
 
 /usr/include/glm/exponential.hpp:
 
@@ -1204,6 +1276,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
+
+/usr/include/SDL/SDL_quit.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
@@ -1287,6 +1361,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/glm/ext/matrix_float2x4.hpp:
 
+/usr/include/SDL/SDL_config.h:
+
 /usr/include/c++/11/cstdlib:
 
 /usr/include/glm/ext/vector_int3_sized.hpp:
@@ -1312,6 +1388,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/c++/11/bits/localefwd.h:
 
 /usr/include/c++/11/tr1/hypergeometric.tcc:
+
+/usr/include/SDL/SDL_mutex.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/stdc++.h:
 
@@ -1351,6 +1429,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/inttypes.h:
 
+/usr/include/SDL/SDL_mouse.h:
+
 /usr/include/c++/11/cstdalign:
 
 /usr/include/c++/11/cstdint:
@@ -1358,6 +1438,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/glm/ext/vector_uint2.hpp:
 
 /usr/include/c++/11/ctgmath:
+
+/usr/include/SDL/SDL_main.h:
 
 /usr/include/c++/11/bits/fs_dir.h:
 
@@ -1591,6 +1673,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/c++/11/bits/regex_constants.h:
 
+/usr/include/SDL/SDL_loadso.h:
+
 /usr/include/c++/11/atomic:
 
 /usr/include/c++/11/bits/regex_error.h:
@@ -1687,6 +1771,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/glm/vec3.hpp:
 
+/usr/include/SDL/SDL_platform.h:
+
 /usr/include/glm/detail/type_vec3.inl:
 
 /usr/include/c++/11/bits/ostream.tcc:
@@ -1738,6 +1824,8 @@ CMakeFiles/more-rendering.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/c++/11/debug/assertions.h:
 
 /usr/include/glm/ext/matrix_double2x2.hpp:
+
+/usr/include/SDL/SDL_version.h:
 
 /usr/include/c++/11/vector:
 

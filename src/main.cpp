@@ -6,6 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #define BUFFER_SIZE 128
 #define PI 3.14159265359
@@ -15,6 +17,30 @@ using namespace std;
 void error(string mes) {
     cerr << mes << endl;
     exit(1);
+}
+
+void flip_vertical(SDL_Surface* surface) {
+
+    SDL_LockSurface(surface);
+
+    int pitch = surface->pitch;
+    char* tmp_row = new char[pitch];
+
+    for (int i = 0; i < surface->h / 2; i++) {
+        
+        char* row1 = (char*)surface->pixels + i*pitch;
+        char* row2 = (char*)surface->pixels + (surface->h - i - 1) * pitch;
+
+        memcpy(tmp_row, row1, pitch);
+        memcpy(row1, row2, pitch);
+        memcpy(row2, tmp_row, pitch);
+
+    }
+
+    delete[] tmp_row;
+
+    SDL_UnlockSurface(surface);
+
 }
 
 GLint compileShader(const char* filename, GLenum type) {
@@ -125,6 +151,10 @@ int main() {
     window = glfwCreateWindow(ww, wh, "this is a window", NULL, NULL);
     glfwMakeContextCurrent(window);
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    double mx, my;
+    glfwGetCursorPos(window, &mx, &my);
+
     if (glewInit() != GLEW_OK) {
         cerr << "GLEW init failed." << endl;
         abort();
@@ -136,12 +166,34 @@ int main() {
     default_program.id = compileShaderProgram("../src/default.vert", "../src/default.frag");
     glUseProgram(default_program.id);
 
-    default_program.add_uloc("view_mat");
-    default_program.add_uloc("project_mat");
-    default_program.add_uloc("vertices");
-    default_program.add_uloc("vertices_amount");
-    default_program.add_uloc("lights");
-    default_program.add_uloc("lights_amount");
+    vector<const char*> uniform_names = {
+        "view_mat",
+        "project_mat",
+        "vertices",
+        "vertices_amount",
+        "lights",
+        "lights_amount",
+        "tex"
+    };
+
+    for (const char* name : uniform_names) {
+        default_program.add_uloc(name);
+    }
+
+    GLuint tex;
+    SDL_Surface* surface;
+    surface = IMG_Load("../textures/true.png");
+    flip_vertical(surface);
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    SDL_FreeSurface(surface);
+
+
+    glUniform1i(default_program.uloc["tex"], 0);
 
     Player plr = {
         glm::vec3(0.0f, 0.0f, 0.0f),
@@ -153,12 +205,21 @@ int main() {
     };
 
     GLfloat vertices[] = {
+
         1.0f, 1.0f, -1.0f, 0.0f,
         0.0f, 1.0f, -1.0f, 0.0f,
         0.0f, 0.0f, -1.0f, 0.0f,
         1.0f, 1.0f, -1.0f, 1.0f,
         1.0f, 0.01, -1.0f, 1.0f,
-        0.0f, 0.0f, -1.0f, 1.0f
+        0.0f, 0.0f, -1.0f, 1.0f,
+
+        -2.0f, -2.0f, -2.0f, 2.0f,
+        -2.0f, -2.0f, 2.0f, 2.0f,
+        2.0f, -2.0f, 2.0f, 2.0f,
+        -2.0f, -2.0f, -2.0f, 3.0f,
+        2.0f, -2.0f, -2.0f, 3.0f,
+        2.0f, -2.0f, 2.0f, 3.0f,
+
 	};
 
     int vertices_amount = (sizeof(vertices) / sizeof(float)) / 4;
@@ -169,8 +230,9 @@ int main() {
         vertices1[i] = {vertices[i*4], vertices[i*4+1], vertices[i*4+2]};
     }
 
+
     glm::vec3 lights[BUFFER_SIZE];
-    lights[0] =  {0.0f, 0.0f, 0.0f};
+    lights[0] = {0.0f, 0.0f, 0.0f};
 
     int lights_amount = 1;
 
@@ -190,6 +252,8 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+    glEnable(GL_DEPTH_TEST);
+
     double time_when_fps = glfwGetTime();
     int updates_since_fps = 0;
     float dt = 0.0f;
@@ -202,6 +266,24 @@ int main() {
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
             break;
+        }
+
+        double n_mx, n_my;
+        glfwGetCursorPos(window, &n_mx, &n_my);
+
+        double dmx = n_mx - mx;
+        double dmy = n_my - my;
+
+        mx = n_mx;
+        my = n_my;
+
+        plr.yaw -= dmx * 0.01;
+        plr.pitch -= dmy * 0.01;
+        if (dmy < 0.0 && plr.pitch > PI / 2) {
+            plr.pitch = PI / 2;
+        }
+        if (dmy > 0.0 && plr.pitch < -PI / 2) {
+            plr.pitch = -PI / 2;
         }
 
         if (glfwGetKey(window, GLFW_KEY_W)) {
@@ -231,9 +313,15 @@ int main() {
         }
         if (glfwGetKey(window, GLFW_KEY_UP)) {
             plr.pitch += plr.rotate_v * dt;
+            if (plr.pitch >= PI/2) {
+                plr.pitch = PI/2;
+            }
         }
         if (glfwGetKey(window, GLFW_KEY_DOWN)) {
             plr.pitch -= plr.rotate_v * dt;
+            if (plr.pitch <= -(PI/2)) {
+                plr.pitch = -(PI/2);
+            }
         }
 
         glm::mat4 view_mat = glm::mat4(1.0f);
@@ -253,10 +341,12 @@ int main() {
         glUniform3fv(default_program.uloc["lights"], BUFFER_SIZE, glm::value_ptr(lights[0]));
         glUniform1i(default_program.uloc["lights_amount"], lights_amount);
 
-        glClearColor(0.13f, 0.1f, 0.1f, 0.1f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.07f, 0.1f, 0.17f, 0.1f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // do default shader stuff
+
+        glBindTexture(GL_TEXTURE_2D, tex);
 
         glUseProgram(default_program.id);
         glBindVertexArray(VAO);

@@ -11,11 +11,14 @@ uniform int vertices_amount;
 uniform vec3 lights[BUFFER_SIZE];
 uniform int lights_amount;
 
+uniform sampler2D tex;
+
 void main() {
 
     vec3 pos = vec3(p.x, p.y, p.z);
     int index = int(p.w);
-
+    
+    vec4 def = texture(tex, vec2(p.x, p.y)); 
     float brightness = 0.2f;
 
     vec3 normal = normalize(cross(vertices[index*3+1] - vertices[index*3], vertices[index*3+2] - vertices[index*3]));
@@ -35,6 +38,9 @@ void main() {
 
         for (int j = 0; j < vertices_amount / 3; j++) {
 
+            if (j == index) {
+                continue;
+            }
 
             vec3 A = vertices[j*3] - pos;
             vec3 B = vertices[j*3+1] - pos;
@@ -45,7 +51,7 @@ void main() {
             float d = triangle_normal.x * A.x + triangle_normal.y * A.y + triangle_normal.z * A.z;
             float intersect_scalar = d / (triangle_normal.x * norm_ray.x + triangle_normal.y * norm_ray.y + triangle_normal.z * norm_ray.z);
 
-            if (intersect_scalar >= 0.01f && intersect_scalar <= length(ray)) {
+            if (intersect_scalar >= 0.1f && intersect_scalar <= length(ray)) {
 
                 vec3 intersection = norm_ray * intersect_scalar;
 
@@ -78,10 +84,10 @@ void main() {
 
     }
 
-    if (brightness < 0.0f) {
+    if (brightness == 0.2f) {
         frag_color = vec4(0.0f, 1.0f, 0.0f, 1.0f);
     } else {
-        frag_color = vec4(brightness, brightness, brightness, 1.0f);
+        frag_color = vec4(def.r * brightness, def.g * brightness, def.b * brightness, 1.0f);
     }
 
 }
