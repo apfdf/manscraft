@@ -32,9 +32,9 @@ void main() {
 
         float dist = length(ray);
 
-        if (dot(normal, norm_ray) > 0.0f) {
-            normal = -normal;
-        }
+        // if (dot(normal, norm_ray) > 0.0f) {
+        //     normal = -normal;
+        // }
 
         for (int j = 0; j < vertices_amount / 3; j++) {
 

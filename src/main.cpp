@@ -147,9 +147,12 @@ int main() {
 
     int ww = 800;
     int wh = 800;
+
     GLFWwindow* window;
     window = glfwCreateWindow(ww, wh, "this is a window", NULL, NULL);
     glfwMakeContextCurrent(window);
+
+    // glfwSwapInterval(0);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     double mx, my;
@@ -160,7 +163,7 @@ int main() {
         abort();
     }
 
-    glViewport(0, 0, ww, wh);
+    // glViewport(0, 0, ww, wh);
 
     ShaderProgram default_program;
     default_program.id = compileShaderProgram("../src/default.vert", "../src/default.frag");
@@ -192,8 +195,10 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     SDL_FreeSurface(surface);
 
-
     glUniform1i(default_program.uloc["tex"], 0);
+
+    bool e_pressed = false;
+    bool paused = false;
 
     Player plr = {
         glm::vec3(0.0f, 0.0f, 0.0f),
@@ -223,13 +228,11 @@ int main() {
 	};
 
     int vertices_amount = (sizeof(vertices) / sizeof(float)) / 4;
-    cout << vertices_amount << endl;
 
     glm::vec3 vertices1[BUFFER_SIZE];
     for (int i = 0; i < vertices_amount; i++) {
         vertices1[i] = {vertices[i*4], vertices[i*4+1], vertices[i*4+2]};
     }
-
 
     glm::vec3 lights[BUFFER_SIZE];
     lights[0] = {0.0f, 0.0f, 0.0f};
@@ -268,22 +271,44 @@ int main() {
             break;
         }
 
-        double n_mx, n_my;
-        glfwGetCursorPos(window, &n_mx, &n_my);
+        glfwGetWindowSize(window, &ww, &wh);
+        glViewport(0, 0, ww, wh);
 
-        double dmx = n_mx - mx;
-        double dmy = n_my - my;
+        if (!paused) {
 
-        mx = n_mx;
-        my = n_my;
+            double n_mx, n_my;
+            glfwGetCursorPos(window, &n_mx, &n_my);
 
-        plr.yaw -= dmx * 0.01;
-        plr.pitch -= dmy * 0.01;
-        if (dmy < 0.0 && plr.pitch > PI / 2) {
-            plr.pitch = PI / 2;
+            double dmx = n_mx - mx;
+            double dmy = n_my - my;
+
+            mx = n_mx;
+            my = n_my;
+
+            plr.yaw -= dmx * 0.01;
+            plr.pitch -= dmy * 0.01;
+            if (dmy < 0.0 && plr.pitch > PI / 2) {
+                plr.pitch = PI / 2;
+            }
+            if (dmy > 0.0 && plr.pitch < -PI / 2) {
+                plr.pitch = -PI / 2;
+            }
+
         }
-        if (dmy > 0.0 && plr.pitch < -PI / 2) {
-            plr.pitch = -PI / 2;
+
+        if (glfwGetKey(window, GLFW_KEY_E)) {
+            if (!e_pressed) {
+                if (!paused) {
+                    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                    paused = true;
+                } else {
+                    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                    paused = false;
+                }
+                e_pressed = true;
+            }
+        } else {
+            e_pressed = false;
         }
 
         if (glfwGetKey(window, GLFW_KEY_W)) {
@@ -311,17 +336,11 @@ int main() {
         if (glfwGetKey(window, GLFW_KEY_LEFT)) {
             plr.yaw += plr.rotate_v * dt;
         }
-        if (glfwGetKey(window, GLFW_KEY_UP)) {
-            plr.pitch += plr.rotate_v * dt;
-            if (plr.pitch >= PI/2) {
-                plr.pitch = PI/2;
-            }
-        }
-        if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-            plr.pitch -= plr.rotate_v * dt;
-            if (plr.pitch <= -(PI/2)) {
-                plr.pitch = -(PI/2);
-            }
+        
+        if (glfwGetKey(window, GLFW_KEY_C)) {
+            plr.fov = PI / 3;
+        } else {
+            plr.fov = PI;
         }
 
         glm::mat4 view_mat = glm::mat4(1.0f);

@@ -3,7 +3,6 @@
 
 layout (location = 0) in vec4 aPos;
 
-
 uniform mat4 view_mat;
 uniform mat4 project_mat;
 
