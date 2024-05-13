@@ -13,10 +13,23 @@ uniform int lights_amount;
 
 uniform sampler2D tex;
 
+// idé om vad som skulle kunna bli fel med lightingen: något skumt med p.w (interpolation?)
+// Verkar som att lightingen förändras beroende på koordinaterna av fragmentet
+
+// problemet verkar ha att göra med index, alla fragment av en triangel får av någon anledning inte samma index
+
 void main() {
 
     vec3 pos = vec3(p.x, p.y, p.z);
-    int index = int(p.w);
+
+    int index;
+    if (abs(p.w - floor(p.w)) > abs(p.w - ceil(p.w))) {
+        index = int(ceil(p.w));
+    } else {
+        index = int(floor(p.w));
+    }
+
+    // int index = int(p.w);
     
     vec4 def = texture(tex, vec2(p.x, p.y)); 
     float brightness = 0.2f;
@@ -32,9 +45,9 @@ void main() {
 
         float dist = length(ray);
 
-        // if (dot(normal, norm_ray) > 0.0f) {
-        //     normal = -normal;
-        // }
+        if (dot(normal, norm_ray) < 0.0f) {
+            normal = -normal;
+        }
 
         for (int j = 0; j < vertices_amount / 3; j++) {
 
@@ -51,7 +64,7 @@ void main() {
             float d = triangle_normal.x * A.x + triangle_normal.y * A.y + triangle_normal.z * A.z;
             float intersect_scalar = d / (triangle_normal.x * norm_ray.x + triangle_normal.y * norm_ray.y + triangle_normal.z * norm_ray.z);
 
-            if (intersect_scalar >= 0.1f && intersect_scalar <= length(ray)) {
+            if (intersect_scalar >= 0.01f && intersect_scalar <= dist) {
 
                 vec3 intersection = norm_ray * intersect_scalar;
 
@@ -73,21 +86,19 @@ void main() {
 
         if (gets_light == 1) {
 
-            vec3 tmp_normal = normal;
-            if (dot(normal, norm_ray) < 0.0f) {
-                tmp_normal = -normal;
-            }
+            // vec3 tmp_normal = normal;
+            // if (dot(normal, norm_ray) < 0.0f) {
+            //     tmp_normal = -normal;
+            // }
 
-            brightness += (1.0f / (dist*dist)) * dot(tmp_normal, norm_ray);
+            brightness += (1 / (dist*dist)) * dot(normal, norm_ray);
+
+            // brightness += (1 / (dist*dist)) * dot(normal, norm_ray);
 
         }
 
     }
 
-    if (brightness == 0.2f) {
-        frag_color = vec4(0.0f, 1.0f, 0.0f, 1.0f);
-    } else {
-        frag_color = vec4(def.r * brightness, def.g * brightness, def.b * brightness, 1.0f);
-    }
-
+    frag_color = vec4(def.r * brightness, def.g * brightness, def.b * brightness, 1.0f);
+    
 }

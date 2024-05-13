@@ -218,12 +218,16 @@ int main() {
         1.0f, 0.01, -1.0f, 1.0f,
         0.0f, 0.0f, -1.0f, 1.0f,
 
-        -2.0f, -2.0f, -2.0f, 2.0f,
         -2.0f, -2.0f, 2.0f, 2.0f,
+        -2.0f, -2.0f, -2.0f, 2.0f,
         2.0f, -2.0f, 2.0f, 2.0f,
         -2.0f, -2.0f, -2.0f, 3.0f,
         2.0f, -2.0f, -2.0f, 3.0f,
         2.0f, -2.0f, 2.0f, 3.0f,
+
+        0.0f, -1.5f, 0.0f, 4.0f,
+        0.0f, -1.5f, 1.0f, 4.0f,
+        1.0f, -1.5f, 1.0f, 4.0f
 
 	};
 
@@ -235,7 +239,7 @@ int main() {
     }
 
     glm::vec3 lights[BUFFER_SIZE];
-    lights[0] = {0.0f, 0.0f, 0.0f};
+    lights[0] = {0.5f, -1.0f, 0.5f};
 
     int lights_amount = 1;
 
@@ -328,13 +332,6 @@ int main() {
         }
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT)) {
             plr.p.y -= plr.v * dt;
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-            plr.yaw -= plr.rotate_v * dt;
-        }
-        if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-            plr.yaw += plr.rotate_v * dt;
         }
         
         if (glfwGetKey(window, GLFW_KEY_C)) {
