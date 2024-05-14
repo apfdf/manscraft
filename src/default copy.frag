@@ -12,7 +12,7 @@ uniform vec3 lights[BUFFER_SIZE];
 uniform int lights_amount;
 
 uniform sampler2D tex;
-uniform samplerBuffer vertices1;
+uniform sampler1D triangles;
 
 // idé om vad som skulle kunna bli fel med lightingen: något skumt med p.w (interpolation?)
 // Verkar som att lightingen förändras beroende på koordinaterna av fragmentet

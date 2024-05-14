@@ -9,7 +9,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-#define BUFFER_SIZE 128
+#define BUFFER_SIZE 256
 #define PI 3.14159265359
 
 using namespace std;
@@ -176,7 +176,8 @@ int main() {
         "vertices_amount",
         "lights",
         "lights_amount",
-        "tex"
+        "tex",
+        "vertices1"
     };
 
     for (const char* name : uniform_names) {
