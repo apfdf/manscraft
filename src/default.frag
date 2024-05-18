@@ -6,20 +6,26 @@
 out vec4 frag_color;
 in vec4 p;
 
-uniform vec3 vertices[BUFFER_SIZE];
+// uniform vec3 vertices[BUFFER_SIZE];
 uniform int vertices_amount;
-uniform vec3 lights[BUFFER_SIZE];
+// uniform vec3 lights[BUFFER_SIZE];
 uniform int lights_amount;
 
 uniform sampler2D tex;
-uniform samplerBuffer vertices1;
+// verkar fungera
+uniform samplerBuffer vertices;
+uniform samplerBuffer lights;
 
-// idé om vad som skulle kunna bli fel med lightingen: något skumt med p.w (interpolation?)
-// Verkar som att lightingen förändras beroende på koordinaterna av fragmentet
-
-// problemet verkar ha att göra med index, alla fragment av en triangel får av någon anledning inte samma index
 
 void main() {
+
+    // float val1 = texelFetch(vertices, vertices_amount).x;
+    // float val2 = texelFetch(lights, 0).x;
+
+    // float v = texelFetch(vertices, 1).x;
+    // frag_color = vec4(v, v, v, 1.0f);
+
+    // frag_color = vec4(val1, val2, 1.0f, 1.0f);
 
     vec3 pos = vec3(p.x, p.y, p.z);
 
@@ -32,16 +38,21 @@ void main() {
 
     // int index = int(p.w);
     
-    vec4 def = texture(tex, vec2(p.x, p.y)); 
+    vec4 def = texture(tex, vec2(p.x, p.z)); 
+    // vec4 def = vec4(1.0f, 1.0f, 1.0f, 1.0f);
     float brightness = 0.2f;
 
-    vec3 normal = normalize(cross(vertices[index*3+1] - vertices[index*3], vertices[index*3+2] - vertices[index*3]));
+    vec3 tA = vec3(texelFetch(vertices, index*9).x, texelFetch(vertices, index*9+1).x, texelFetch(vertices, index*9+2).x);
+    vec3 tB = vec3(texelFetch(vertices, index*9+3).x, texelFetch(vertices, index*9+4).x, texelFetch(vertices, index*9+5).x);
+    vec3 tC = vec3(texelFetch(vertices, index*9+6).x, texelFetch(vertices, index*9+7).x, texelFetch(vertices, index*9+8).x);
+
+    vec3 normal = normalize(cross(tB - tA, tC - tA));
 
     for (int i = 0; i < lights_amount; i++) {
 
         int gets_light = 1;
 
-        vec3 ray = lights[i] - pos;
+        vec3 ray = vec3(texelFetch(lights, i*3).x, texelFetch(lights, i*3+1).x, texelFetch(lights, i*3+2).x) - pos;
         vec3 norm_ray = normalize(ray);
 
         float dist = length(ray);
@@ -52,20 +63,20 @@ void main() {
 
         for (int j = 0; j < vertices_amount / 3; j++) {
 
-            // if (j == index) {
-            //     continue;
-            // }
+            if (j == index) {
+                continue;
+            }
 
-            vec3 A = vertices[j*3] - pos;
-            vec3 B = vertices[j*3+1] - pos;
-            vec3 C = vertices[j*3+2] - pos;
+            vec3 A = vec3(texelFetch(vertices, j*9).x, texelFetch(vertices, j*9+1).x, texelFetch(vertices, j*9+2).x) - pos;
+            vec3 B = vec3(texelFetch(vertices, j*9+3).x, texelFetch(vertices, j*9+4).x, texelFetch(vertices, j*9+5).x) - pos;
+            vec3 C = vec3(texelFetch(vertices, j*9+6).x, texelFetch(vertices, j*9+7).x, texelFetch(vertices, j*9+8).x) - pos;
 
             vec3 triangle_normal = normalize(cross(B - A, C - A));
 
             float d = triangle_normal.x * A.x + triangle_normal.y * A.y + triangle_normal.z * A.z;
             float intersect_scalar = d / (triangle_normal.x * norm_ray.x + triangle_normal.y * norm_ray.y + triangle_normal.z * norm_ray.z);
 
-            if (intersect_scalar >= 0.01f && intersect_scalar <= dist) {
+            if (intersect_scalar >= 0.04f && intersect_scalar <= dist) {
 
                 vec3 intersection = norm_ray * intersect_scalar;
 
@@ -76,7 +87,7 @@ void main() {
                 float area_c = length(cross(A - intersection, B - intersection));
                 float area_sum = area_a + area_b + area_c;
 
-                if (abs(triangle_area - area_sum) <= 0.0001f) {
+                if (abs(triangle_area - area_sum) <= 0.001f) {
                     gets_light = 0;
                     break;
                 }
@@ -100,6 +111,7 @@ void main() {
 
     }
 
+    //frag_color = vec4(brightness, brightness, brightness, 1.0f);
     frag_color = vec4(def.r * brightness, def.g * brightness, def.b * brightness, 1.0f);
-    
+
 }

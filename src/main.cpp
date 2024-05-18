@@ -186,7 +186,7 @@ int main() {
 
     GLuint tex;
     SDL_Surface* surface;
-    surface = IMG_Load("../textures/true.png");
+    surface = IMG_Load("../textures/watter.png");
     flip_vertical(surface);
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
@@ -210,39 +210,79 @@ int main() {
         PI
     };
 
-    GLfloat vertices[] = {
+    int sl = 50;
 
-        1.0f, 1.0f, -1.0f, 0.0f,
-        0.0f, 1.0f, -1.0f, 0.0f,
-        0.0f, 0.0f, -1.0f, 0.0f,
-        1.0f, 1.0f, -1.0f, 1.0f,
-        1.0f, 0.01, -1.0f, 1.0f,
-        0.0f, 0.0f, -1.0f, 1.0f,
-
-        -2.0f, -2.0f, 2.0f, 2.0f,
-        -2.0f, -2.0f, -2.0f, 2.0f,
-        2.0f, -2.0f, 2.0f, 2.0f,
-        -2.0f, -2.0f, -2.0f, 3.0f,
-        2.0f, -2.0f, -2.0f, 3.0f,
-        2.0f, -2.0f, 2.0f, 3.0f,
-
-        0.0f, -1.5f, 0.0f, 4.0f,
-        0.0f, -1.5f, 1.0f, 4.0f,
-        1.0f, -1.5f, 1.0f, 4.0f
-
-	};
-
-    int vertices_amount = (sizeof(vertices) / sizeof(float)) / 4;
-
-    glm::vec3 vertices1[BUFFER_SIZE];
-    for (int i = 0; i < vertices_amount; i++) {
-        vertices1[i] = {vertices[i*4], vertices[i*4+1], vertices[i*4+2]};
+    vector<vector<float>> heightmap(sl, vector<float>(sl));
+    for (int i = 0; i < sl; i++) {
+        for (int j = 0; j < sl; j++) {
+            heightmap[i][j] = ((float)rand() / RAND_MAX);
+        }
     }
 
-    glm::vec3 lights[BUFFER_SIZE];
-    lights[0] = {0.5f, -1.0f, 0.5f};
+    vector<float> vertices = {};
+    for (int i = 0; i < sl-1; i++) {
+        for (int j = 0; j < sl-1; j++) {
+            vertices.insert(vertices.end(), {
+                i*0.1f, heightmap[i][j], j*0.1f,
+                (i+1)*0.1f, heightmap[i+1][j], j*0.1f,
+                (i+1)*0.1f, heightmap[i+1][j+1], (j+1)*0.1f,
+                i*0.1f, heightmap[i][j], j*0.1f,
+                i*0.1f, heightmap[i][j+1], (j+1)*0.1f,
+                (i+1)*0.1f, heightmap[i+1][j+1], (j+1)*0.1f,
+            });
+        }
+    }
 
-    int lights_amount = 1;
+
+    // vector<float> vertices = {
+
+    //     1.0f, 1.0f, -1.0f,
+    //     0.0f, 1.0f, -1.0f,
+    //     0.0f, 0.0f, -1.0f,
+    //     1.0f, 1.0f, -1.0f,
+    //     1.0f, 0.01, -1.0f,
+    //     0.0f, 0.0f, -1.0f,
+
+    //     -2.0f, -2.0f, 2.0f,
+    //     -2.0f, -2.0f, -2.0f,
+    //     2.0f, -2.0f, 2.0f,
+    //     -2.0f, -2.0f, -2.0f,
+    //     2.0f, -2.0f, -2.0f,
+    //     2.0f, -2.0f, 2.0f,
+
+    //     0.0f, -1.5f, 0.0f,
+    //     0.0f, -1.5f, 1.0f,
+    //     1.0f, -1.5f, 1.0f,
+
+	// };
+
+
+    // int vertices_amount = (sizeof(vertices) / sizeof(float)) / 3;
+    int vertices_amount = vertices.size() / 3;
+
+    vector<float> indexed_vertices(vertices_amount*4);
+    int c_index = -1;
+    for (int i = 0; i < vertices_amount; i++) {
+
+        if (i % 3 == 0) {
+            c_index++;
+        }
+
+        indexed_vertices[i*4] = vertices[i*3];
+        indexed_vertices[i*4+1] = vertices[i*3+1];
+        indexed_vertices[i*4+2] = vertices[i*3+2];
+
+        indexed_vertices[i*4+3] = (float)c_index;
+
+    }
+
+    vector<float> lights = {
+        -0.3f, -1.0f, 0.3f,
+        0.5f, -1.0f, 0.5f,
+        8.0f, 8.0f, 2.0f
+    };
+    //int lights_amount = (sizeof(lights) / sizeof(float)) / 3;
+    int lights_amount = lights.size() / 3;
 
 	GLuint VAO, VBO;
 
@@ -252,7 +292,7 @@ int main() {
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, indexed_vertices.size() * sizeof(float), &indexed_vertices[0], GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -260,11 +300,35 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+
+    GLuint vertices_TBO, vertices_tex;
+    glGenBuffers(1, &vertices_TBO);
+    glBindBuffer(GL_TEXTURE_BUFFER, vertices_TBO);
+    glBufferData(GL_TEXTURE_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+
+    glGenTextures(1, &vertices_tex);
+
+    glBindBuffer(GL_TEXTURE_BUFFER, 0);
+
+
+    GLuint lights_TBO, lights_tex;
+    
+    glGenBuffers(1, &lights_TBO);
+    glBindBuffer(GL_TEXTURE_BUFFER, lights_TBO);
+    glBufferData(GL_TEXTURE_BUFFER, lights.size() * sizeof(float), &lights[0], GL_STATIC_DRAW);
+
+    glGenTextures(1, &lights_tex);
+
+    glBindBuffer(GL_TEXTURE_BUFFER, 0);
+
+
     glEnable(GL_DEPTH_TEST);
+
 
     double time_when_fps = glfwGetTime();
     int updates_since_fps = 0;
     float dt = 0.0f;
+
 
     while (!glfwWindowShouldClose(window)) {
         
@@ -352,11 +416,25 @@ int main() {
         glUniformMatrix4fv(default_program.uloc["view_mat"], 1, false, glm::value_ptr(view_mat));
         glUniformMatrix4fv(default_program.uloc["project_mat"], 1, false, glm::value_ptr(project_mat));
 
-        glUniform3fv(default_program.uloc["vertices"], BUFFER_SIZE, glm::value_ptr(vertices1[0]));
+        // glUniform3fv(default_program.uloc["vertices"], BUFFER_SIZE, glm::value_ptr(vertices1[0]));
         glUniform1i(default_program.uloc["vertices_amount"], vertices_amount);
 
-        glUniform3fv(default_program.uloc["lights"], BUFFER_SIZE, glm::value_ptr(lights[0]));
+        // glUniform3fv(default_program.uloc["lights"], BUFFER_SIZE, glm::value_ptr(lights[0]));
         glUniform1i(default_program.uloc["lights_amount"], lights_amount);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_BUFFER, vertices_tex);
+        glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, vertices_TBO);
+        glUniform1i(default_program.uloc["vertices"], 0);
+
+        glActiveTexture(GL_TEXTURE0+1);
+        glBindTexture(GL_TEXTURE_BUFFER, lights_tex);
+        glTexBuffer(GL_TEXTURE_BUFFER, GL_R32F, lights_TBO);
+        glUniform1i(default_program.uloc["lights"], 1);
+
+        glActiveTexture(GL_TEXTURE0+2);
+        glBindTexture(GL_TEXTURE_2D, tex);
+        glUniform1i(default_program.uloc["tex"], 2);
 
         glClearColor(0.07f, 0.1f, 0.17f, 0.1f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
